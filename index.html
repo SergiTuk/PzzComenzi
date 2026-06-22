@@ -1,68 +1,62 @@
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
+body{font-size:16px}
 .nav{display:flex;background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);position:sticky;top:0;z-index:100}
-.nav-btn{flex:1;padding:12px 4px 10px;border:none;background:none;cursor:pointer;font-size:11px;color:var(--color-text-secondary);display:flex;flex-direction:column;align-items:center;gap:4px;border-bottom:2px solid transparent;transition:color .15s}
+.nav-btn{flex:1;padding:14px 4px 12px;border:none;background:none;cursor:pointer;font-size:13px;color:var(--color-text-secondary);display:flex;flex-direction:column;align-items:center;gap:5px;border-bottom:2px solid transparent;transition:color .15s}
 .nav-btn.active{color:var(--color-text-primary);border-bottom-color:var(--color-text-primary)}
-.nav-btn i{font-size:20px}
+.nav-btn i{font-size:24px}
 .page{display:none;padding:1rem}
 .page.active{display:block}
-.lbl{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
-.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:12px}
-.table-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:1.5rem}
-.tbl-btn{padding:10px 4px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-primary);cursor:pointer;font-size:13px;font-weight:500;color:var(--color-text-primary);text-align:center;position:relative;transition:background .1s}
+.lbl{font-size:13px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:14px}
+.table-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:1.5rem}
+.tbl-btn{padding:14px 4px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-primary);cursor:pointer;font-size:15px;font-weight:500;color:var(--color-text-primary);text-align:center;position:relative;transition:background .1s}
 .tbl-btn.selected{background:#E6F1FB;border-color:#378ADD;color:#0C447C}
-.tbl-btn.has-order::after{content:'';position:absolute;top:5px;right:5px;width:6px;height:6px;border-radius:50%;background:#639922}
+.tbl-btn.has-order::after{content:'';position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:#639922}
 .tbl-btn.done-t{opacity:.45}
-.menu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:1rem}
-.mitem{padding:10px 12px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-primary);cursor:default;display:flex;justify-content:space-between;align-items:center;font-size:13px}
-/* Bigger pizza names */
-.mitem.pizza-name {
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.mitem .pr{font-size:12px;color:var(--color-text-secondary)}
-.qty-c{display:flex;align-items:center;gap:8px}
-.qb{width:26px;height:26px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--color-text-primary)}
-.qn{font-size:14px;font-weight:500;min-width:16px;text-align:center}
-.ord-sum{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;margin-bottom:12px}
-.ol{display:flex;justify-content:space-between;font-size:13px;padding:3px 0;color:var(--color-text-secondary)}
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem}
+.mitem{padding:12px 14px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-primary);cursor:default;display:flex;justify-content:space-between;align-items:center;font-size:15px}
+.mitem .pr{font-size:13px;color:var(--color-text-secondary);margin-top:2px}
+.qty-c{display:flex;align-items:center;gap:10px}
+.qb{width:34px;height:34px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:none;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;color:var(--color-text-primary)}
+.qn{font-size:17px;font-weight:500;min-width:20px;text-align:center}
+.ord-sum{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:14px;margin-bottom:14px}
+.ol{display:flex;justify-content:space-between;font-size:15px;padding:4px 0;color:var(--color-text-secondary)}
 .ol span:last-child{color:var(--color-text-primary);font-weight:500}
-.ot{display:flex;justify-content:space-between;font-size:15px;font-weight:500;border-top:0.5px solid var(--color-border-tertiary);margin-top:8px;padding-top:8px}
-.btn-row{display:flex;gap:8px}
-.btn{padding:10px 16px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:none;cursor:pointer;font-size:13px;font-weight:500;color:var(--color-text-primary);flex:1;transition:background .1s}
+.ot{display:flex;justify-content:space-between;font-size:17px;font-weight:500;border-top:0.5px solid var(--color-border-tertiary);margin-top:10px;padding-top:10px}
+.btn-row{display:flex;gap:10px}
+.btn{padding:13px 16px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:none;cursor:pointer;font-size:15px;font-weight:500;color:var(--color-text-primary);flex:1;transition:background .1s}
 .btn:hover{background:var(--color-background-secondary)}
 .btn.pri{background:#0C447C;color:#E6F1FB;border-color:#0C447C}
 .btn.pri:hover{background:#185FA5}
 .btn.suc{background:#3B6D11;color:#EAF3DE;border-color:#3B6D11}
 .btn.suc:hover{background:#27500A}
 .btn.dan{color:#A32D2D;border-color:#F09595}
-.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:var(--border-radius-md);font-weight:500}
+.badge{display:inline-block;font-size:13px;padding:4px 10px;border-radius:var(--border-radius-md);font-weight:500}
 .badge.activ{background:#EAF3DE;color:#3B6D11}
 .badge.gata{background:#F1EFE8;color:#5F5E5A}
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem}
-.stat{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px}
-.stat-l{font-size:12px;color:var(--color-text-secondary);margin-bottom:4px}
-.stat-v{font-size:22px;font-weight:500;color:var(--color-text-primary)}
-.irow{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.25rem}
+.stat{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:14px}
+.stat-l{font-size:13px;color:var(--color-text-secondary);margin-bottom:6px}
+.stat-v{font-size:26px;font-weight:500;color:var(--color-text-primary)}
+.irow{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:15px}
 .irow:last-child{border-bottom:none}
-.empty{text-align:center;padding:2rem;color:var(--color-text-tertiary);font-size:14px}
-.ts{font-size:11px;color:var(--color-text-tertiary)}
-.modal-wrap{background:rgba(0,0,0,0.45);border-radius:var(--border-radius-lg);padding:2rem 1rem;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
-.modal{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;width:100%;max-width:400px}
-.modal h3{font-size:15px;font-weight:500;margin-bottom:1rem}
-.field{margin-bottom:10px}
-.field label{display:block;font-size:12px;color:var(--color-text-secondary);margin-bottom:4px}
-.field input,.field select{width:100%;padding:8px 10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary);font-size:13px}
-.admin-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px}
+.empty{text-align:center;padding:2.5rem;color:var(--color-text-tertiary);font-size:16px}
+.ts{font-size:13px;color:var(--color-text-tertiary)}
+.modal-wrap{background:rgba(0,0,0,0.45);border-radius:var(--border-radius-lg);padding:2rem 1rem;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.modal{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;width:100%}
+.modal h3{font-size:17px;font-weight:500;margin-bottom:1.25rem}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:14px;color:var(--color-text-secondary);margin-bottom:6px}
+.field input,.field select{width:100%;padding:11px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary);font-size:15px}
+.admin-item{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:15px}
 .admin-item:last-child{border-bottom:none}
-.icon-btns{display:flex;gap:6px}
-.icon-btn{width:28px;height:28px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--color-text-secondary);font-size:14px}
+.icon-btn{width:36px;height:36px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--color-text-secondary);font-size:18px}
 .icon-btn.del{color:#A32D2D;border-color:#F09595}
 </style>
 
-<h2 style="position:absolute;left:-9999px">Aplicație comenzi pizza cu pagini: comenzi, bucătărie, sumar</h2>
+<h2 style="position:absolute;left:-9999px">Aplicație comenzi pizza — comenzi, bucătărie, sumar, admin</h2>
 
 <nav class="nav">
   <button class="nav-btn active" onclick="showPage('comenzi')" id="nav-comenzi"><i class="ti ti-notebook" aria-hidden="true"></i>Comenzi</button>
@@ -95,30 +89,15 @@
 </div>
 
 <script>
-const CAT_LABELS = {pizzas:'Pizza',drinks:'Băuturi',other:'Altele'};
-const DEFAULT_MENU = {
-  pizzas:[
-    {id:'p1',name:'Margherita',price:22},
-    {id:'p2',name:'Prosciutto',price:26},
-    {id:'p3',name:'Quattro Formaggi',price:25},
-    {id:'p4',name:'Diavola',price:24},
-    {id:'p5',name:'Tonno',price:24},
-    {id:'p6',name:'Capricciosa',price:25}
-  ],
-  drinks:[
-    {id:'d1',name:'Cafea',price:4},
-    {id:'d2',name:'Suc',price:5},
-    {id:'d3',name:'Bere',price:7}
-  ],
-  other:[
-    {id:'o1',name:'Înghețată',price:8},
-    {id:'o2',name:'Clătite',price:10}
-  ]
+const CAT_LABELS={pizzas:'Pizza',drinks:'Băuturi',other:'Altele'};
+const DEFAULT_MENU={
+  pizzas:[{id:'p1',name:'Margherita',price:22},{id:'p2',name:'Prosciutto',price:26},{id:'p3',name:'Quattro Formaggi',price:25},{id:'p4',name:'Diavola',price:24},{id:'p5',name:'Tonno',price:24},{id:'p6',name:'Capricciosa',price:25}],
+  drinks:[{id:'d1',name:'Cafea',price:4},{id:'d2',name:'Suc',price:5},{id:'d3',name:'Bere',price:7}],
+  other:[{id:'o1',name:'Înghețată',price:8},{id:'o2',name:'Clătite',price:10}]
 };
 
-let state = {tables:{},kitchenQueue:[],selectedTable:null,menu:JSON.parse(JSON.stringify(DEFAULT_MENU))};
-let editingItem = null;
-
+let state={tables:{},kitchenQueue:[],selectedTable:null,menu:JSON.parse(JSON.stringify(DEFAULT_MENU))};
+let editingItem=null;
 try{const s=localStorage.getItem('pizzaAppRO');if(s){const p=JSON.parse(s);state=Object.assign(state,p);if(!state.menu)state.menu=JSON.parse(JSON.stringify(DEFAULT_MENU));}}catch(e){}
 
 function save(){try{localStorage.setItem('pizzaAppRO',JSON.stringify(state));}catch(e){}}
@@ -159,13 +138,12 @@ function renderOrderPanel(){
   if(!t){panel.innerHTML='<div class="empty">Apasă o masă pentru a prelua comanda</div>';return;}
   const order=state.tables[t]||{items:[],status:'activ'};
   const isDone=order.status==='gata';
-  let html=`<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><span style="font-size:15px;font-weight:500">Masa ${t}</span><span class="badge ${isDone?'gata':'activ'}">${isDone?'Gata':'Activ'}</span></div>`;
+  let html=`<div class="card"><div style="display:flex;align-items:center;gap:10px;margin-bottom:14px"><span style="font-size:17px;font-weight:500">Masa ${t}</span><span class="badge ${isDone?'gata':'activ'}">${isDone?'Gata':'Activ'}</span></div>`;
   ['pizzas','drinks','other'].forEach(cat=>{
     html+=`<div class="lbl">${CAT_LABELS[cat]}</div><div class="menu-grid">`;
     (state.menu[cat]||[]).forEach(item=>{
       const qty=(order.items||(order.items=[])).find(i=>i.id===item.id)?.qty||0;
-/* CHANGE */
-      html+=`<div class="mitem ${cat==='pizzas' ? 'pizza-name' : ''}"><div><div>${item.name}</div><div class="pr">${item.price} lei</div></div>
+      html+=`<div class="mitem"><div><div>${item.name}</div><div class="pr">${item.price} lei</div></div>
       <div class="qty-c">
         <button class="qb" ${isDone?'disabled':''} onclick="chQty(${t},'${item.id}',${item.price},'${item.name}','${cat}',-1)">−</button>
         <span class="qn">${qty}</span>
@@ -230,19 +208,19 @@ function renderKitchen(){
   const el=document.getElementById('kitchen-list');
   const pending=state.kitchenQueue.filter(i=>!i.done);
   const done=state.kitchenQueue.filter(i=>i.done);
-  if(!state.kitchenQueue.length){el.innerHTML='<div class="empty"><i class="ti ti-flame" style="font-size:32px;display:block;margin-bottom:8px" aria-hidden="true"></i>Nicio comandă încă</div>';return;}
+  if(!state.kitchenQueue.length){el.innerHTML='<div class="empty"><i class="ti ti-flame" style="font-size:40px;display:block;margin-bottom:10px" aria-hidden="true"></i>Nicio comandă încă</div>';return;}
   let html='';
   if(pending.length){
     html+=`<div class="lbl">${pending.length} pizza(e) de pregătit</div>`;
     pending.forEach(item=>{
-      html+=`<div class="card" style="margin-bottom:10px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <span style="font-size:15px;font-weight:500">${item.name}</span>
+      html+=`<div class="card" style="margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <span style="font-size:18px;font-weight:500">${item.name}</span>
           <span class="badge activ">Masa ${item.table}</span>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center">
-          <span class="ts"><i class="ti ti-clock" aria-hidden="true" style="font-size:13px;vertical-align:-1px"></i> ${item.time}</span>
-          <button class="btn pri" style="flex:0;padding:6px 14px" onclick="marcheazaPizzaGata('${item.id}')">Gata ✓</button>
+          <span class="ts"><i class="ti ti-clock" aria-hidden="true" style="font-size:15px;vertical-align:-2px"></i> ${item.time}</span>
+          <button class="btn pri" style="flex:0;padding:10px 20px" onclick="marcheazaPizzaGata('${item.id}')">Gata ✓</button>
         </div>
       </div>`;
     });
@@ -252,7 +230,7 @@ function renderKitchen(){
     done.forEach(item=>{
       html+=`<div class="card" style="opacity:.4;margin-bottom:8px">
         <div style="display:flex;justify-content:space-between;align-items:center">
-          <span style="font-size:14px;text-decoration:line-through;color:var(--color-text-secondary)">${item.name}</span>
+          <span style="font-size:15px;text-decoration:line-through;color:var(--color-text-secondary)">${item.name}</span>
           <span class="badge gata">Masa ${item.table}</span>
         </div>
         <span class="ts">${item.time}</span>
@@ -295,23 +273,23 @@ function renderSumar(){
 
 function resetZi(){
   if(!confirm('Resetezi toate comenzile din ziua de azi?'))return;
-  state.tables={};state.kitchenQueue={};state.kitchenQueue=[];state.selectedTable=null;
+  state.tables={};state.kitchenQueue=[];state.selectedTable=null;
   save();renderTables();showPage('comenzi');
 }
 
 function renderAdmin(){
   let html='';
   ['pizzas','drinks','other'].forEach(cat=>{
-    html+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <span style="font-size:15px;font-weight:500">${CAT_LABELS[cat]}</span>
-      <button class="btn pri" style="flex:0;padding:6px 14px;font-size:12px" onclick="openAdd('${cat}')"><i class="ti ti-plus" aria-hidden="true"></i> Adaugă</button>
+    html+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <span style="font-size:17px;font-weight:500">${CAT_LABELS[cat]}</span>
+      <button class="btn pri" style="flex:0;padding:10px 16px;font-size:14px" onclick="openAdd('${cat}')"><i class="ti ti-plus" aria-hidden="true"></i> Adaugă</button>
     </div>`;
     (state.menu[cat]||[]).forEach(item=>{
       html+=`<div class="admin-item">
         <span>${item.name}</span>
-        <div style="display:flex;align-items:center;gap:12px">
-          <span style="color:var(--color-text-secondary);font-size:13px">${item.price} lei</span>
-          <div class="icon-btns">
+        <div style="display:flex;align-items:center;gap:14px">
+          <span style="color:var(--color-text-secondary);font-size:15px">${item.price} lei</span>
+          <div style="display:flex;gap:8px">
             <button class="icon-btn" aria-label="Editează ${item.name}" onclick="openEdit('${cat}','${item.id}')"><i class="ti ti-edit" aria-hidden="true"></i></button>
             <button class="icon-btn del" aria-label="Șterge ${item.name}" onclick="deleteItem('${cat}','${item.id}')"><i class="ti ti-trash" aria-hidden="true"></i></button>
           </div>
@@ -331,7 +309,7 @@ function renderAdmin(){
       </select></div>
       <div class="field"><label>Nume produs</label><input id="e-name" type="text" value="${editingItem.name||''}" placeholder="ex: Pizza Hawai"></div>
       <div class="field"><label>Preț (lei)</label><input id="e-price" type="number" value="${editingItem.price||''}" placeholder="ex: 25" min="1"></div>
-      <div class="btn-row" style="margin-top:1rem">
+      <div class="btn-row" style="margin-top:1.25rem">
         <button class="btn" onclick="cancelEdit()">Anulează</button>
         <button class="btn suc" onclick="saveItem()">Salvează</button>
       </div>
