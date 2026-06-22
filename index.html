@@ -1,0 +1,369 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.nav{display:flex;background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);position:sticky;top:0;z-index:100}
+.nav-btn{flex:1;padding:12px 4px 10px;border:none;background:none;cursor:pointer;font-size:11px;color:var(--color-text-secondary);display:flex;flex-direction:column;align-items:center;gap:4px;border-bottom:2px solid transparent;transition:color .15s}
+.nav-btn.active{color:var(--color-text-primary);border-bottom-color:var(--color-text-primary)}
+.nav-btn i{font-size:20px}
+.page{display:none;padding:1rem}
+.page.active{display:block}
+.lbl{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:12px}
+.table-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:1.5rem}
+.tbl-btn{padding:10px 4px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-primary);cursor:pointer;font-size:13px;font-weight:500;color:var(--color-text-primary);text-align:center;position:relative;transition:background .1s}
+.tbl-btn.selected{background:#E6F1FB;border-color:#378ADD;color:#0C447C}
+.tbl-btn.has-order::after{content:'';position:absolute;top:5px;right:5px;width:6px;height:6px;border-radius:50%;background:#639922}
+.tbl-btn.done-t{opacity:.45}
+.menu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:1rem}
+.mitem{padding:10px 12px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-primary);cursor:default;display:flex;justify-content:space-between;align-items:center;font-size:13px}
+/* Bigger pizza names */
+.mitem.pizza-name {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.mitem .pr{font-size:12px;color:var(--color-text-secondary)}
+.qty-c{display:flex;align-items:center;gap:8px}
+.qb{width:26px;height:26px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--color-text-primary)}
+.qn{font-size:14px;font-weight:500;min-width:16px;text-align:center}
+.ord-sum{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px;margin-bottom:12px}
+.ol{display:flex;justify-content:space-between;font-size:13px;padding:3px 0;color:var(--color-text-secondary)}
+.ol span:last-child{color:var(--color-text-primary);font-weight:500}
+.ot{display:flex;justify-content:space-between;font-size:15px;font-weight:500;border-top:0.5px solid var(--color-border-tertiary);margin-top:8px;padding-top:8px}
+.btn-row{display:flex;gap:8px}
+.btn{padding:10px 16px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:none;cursor:pointer;font-size:13px;font-weight:500;color:var(--color-text-primary);flex:1;transition:background .1s}
+.btn:hover{background:var(--color-background-secondary)}
+.btn.pri{background:#0C447C;color:#E6F1FB;border-color:#0C447C}
+.btn.pri:hover{background:#185FA5}
+.btn.suc{background:#3B6D11;color:#EAF3DE;border-color:#3B6D11}
+.btn.suc:hover{background:#27500A}
+.btn.dan{color:#A32D2D;border-color:#F09595}
+.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:var(--border-radius-md);font-weight:500}
+.badge.activ{background:#EAF3DE;color:#3B6D11}
+.badge.gata{background:#F1EFE8;color:#5F5E5A}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem}
+.stat{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px}
+.stat-l{font-size:12px;color:var(--color-text-secondary);margin-bottom:4px}
+.stat-v{font-size:22px;font-weight:500;color:var(--color-text-primary)}
+.irow{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px}
+.irow:last-child{border-bottom:none}
+.empty{text-align:center;padding:2rem;color:var(--color-text-tertiary);font-size:14px}
+.ts{font-size:11px;color:var(--color-text-tertiary)}
+.modal-wrap{background:rgba(0,0,0,0.45);border-radius:var(--border-radius-lg);padding:2rem 1rem;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.modal{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;width:100%;max-width:400px}
+.modal h3{font-size:15px;font-weight:500;margin-bottom:1rem}
+.field{margin-bottom:10px}
+.field label{display:block;font-size:12px;color:var(--color-text-secondary);margin-bottom:4px}
+.field input,.field select{width:100%;padding:8px 10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary);font-size:13px}
+.admin-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px}
+.admin-item:last-child{border-bottom:none}
+.icon-btns{display:flex;gap:6px}
+.icon-btn{width:28px;height:28px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--color-text-secondary);font-size:14px}
+.icon-btn.del{color:#A32D2D;border-color:#F09595}
+</style>
+
+<h2 style="position:absolute;left:-9999px">Aplicație comenzi pizza cu pagini: comenzi, bucătărie, sumar</h2>
+
+<nav class="nav">
+  <button class="nav-btn active" onclick="showPage('comenzi')" id="nav-comenzi"><i class="ti ti-notebook" aria-hidden="true"></i>Comenzi</button>
+  <button class="nav-btn" onclick="showPage('bucatarie')" id="nav-bucatarie"><i class="ti ti-flame" aria-hidden="true"></i>Bucătărie</button>
+  <button class="nav-btn" onclick="showPage('sumar')" id="nav-sumar"><i class="ti ti-chart-bar" aria-hidden="true"></i>Sumar</button>
+  <button class="nav-btn" onclick="showPage('admin')" id="nav-admin"><i class="ti ti-settings" aria-hidden="true"></i>Admin</button>
+</nav>
+
+<div id="page-comenzi" class="page active">
+  <div class="lbl">Selectează masa</div>
+  <div class="table-grid" id="table-grid"></div>
+  <div id="order-panel"></div>
+</div>
+
+<div id="page-bucatarie" class="page">
+  <div id="kitchen-list"></div>
+</div>
+
+<div id="page-sumar" class="page">
+  <div class="stat-grid" id="stat-grid"></div>
+  <div class="card">
+    <div class="lbl" style="margin-bottom:12px">Produse vândute azi</div>
+    <div id="items-list"></div>
+  </div>
+  <button class="btn dan" style="width:100%;margin-top:4px" onclick="resetZi()">Resetează ziua</button>
+</div>
+
+<div id="page-admin" class="page">
+  <div id="admin-panel"></div>
+</div>
+
+<script>
+const CAT_LABELS = {pizzas:'Pizza',drinks:'Băuturi',other:'Altele'};
+const DEFAULT_MENU = {
+  pizzas:[
+    {id:'p1',name:'Margherita',price:22},
+    {id:'p2',name:'Prosciutto',price:26},
+    {id:'p3',name:'Quattro Formaggi',price:25},
+    {id:'p4',name:'Diavola',price:24},
+    {id:'p5',name:'Tonno',price:24},
+    {id:'p6',name:'Capricciosa',price:25}
+  ],
+  drinks:[
+    {id:'d1',name:'Cafea',price:4},
+    {id:'d2',name:'Suc',price:5},
+    {id:'d3',name:'Bere',price:7}
+  ],
+  other:[
+    {id:'o1',name:'Înghețată',price:8},
+    {id:'o2',name:'Clătite',price:10}
+  ]
+};
+
+let state = {tables:{},kitchenQueue:[],selectedTable:null,menu:JSON.parse(JSON.stringify(DEFAULT_MENU))};
+let editingItem = null;
+
+try{const s=localStorage.getItem('pizzaAppRO');if(s){const p=JSON.parse(s);state=Object.assign(state,p);if(!state.menu)state.menu=JSON.parse(JSON.stringify(DEFAULT_MENU));}}catch(e){}
+
+function save(){try{localStorage.setItem('pizzaAppRO',JSON.stringify(state));}catch(e){}}
+
+function showPage(p){
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el=>el.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  document.getElementById('nav-'+p).classList.add('active');
+  if(p==='bucatarie')renderKitchen();
+  if(p==='sumar')renderSumar();
+  if(p==='admin')renderAdmin();
+  if(p==='comenzi')renderTables();
+}
+
+function renderTables(){
+  const grid=document.getElementById('table-grid');
+  grid.innerHTML='';
+  for(let i=1;i<=10;i++){
+    const t=state.tables[i];
+    const btn=document.createElement('button');
+    btn.className='tbl-btn';
+    if(t&&t.items&&t.items.length)btn.classList.add('has-order');
+    if(t&&t.status==='gata')btn.classList.add('done-t');
+    if(state.selectedTable===i)btn.classList.add('selected');
+    btn.textContent='M'+i;
+    btn.onclick=()=>selectTable(i);
+    grid.appendChild(btn);
+  }
+  renderOrderPanel();
+}
+
+function selectTable(n){state.selectedTable=n;renderTables();}
+
+function renderOrderPanel(){
+  const panel=document.getElementById('order-panel');
+  const t=state.selectedTable;
+  if(!t){panel.innerHTML='<div class="empty">Apasă o masă pentru a prelua comanda</div>';return;}
+  const order=state.tables[t]||{items:[],status:'activ'};
+  const isDone=order.status==='gata';
+  let html=`<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><span style="font-size:15px;font-weight:500">Masa ${t}</span><span class="badge ${isDone?'gata':'activ'}">${isDone?'Gata':'Activ'}</span></div>`;
+  ['pizzas','drinks','other'].forEach(cat=>{
+    html+=`<div class="lbl">${CAT_LABELS[cat]}</div><div class="menu-grid">`;
+    (state.menu[cat]||[]).forEach(item=>{
+      const qty=(order.items||(order.items=[])).find(i=>i.id===item.id)?.qty||0;
+/* CHANGE */
+      html+=`<div class="mitem ${cat==='pizzas' ? 'pizza-name' : ''}"><div><div>${item.name}</div><div class="pr">${item.price} lei</div></div>
+      <div class="qty-c">
+        <button class="qb" ${isDone?'disabled':''} onclick="chQty(${t},'${item.id}',${item.price},'${item.name}','${cat}',-1)">−</button>
+        <span class="qn">${qty}</span>
+        <button class="qb" ${isDone?'disabled':''} onclick="chQty(${t},'${item.id}',${item.price},'${item.name}','${cat}',1)">+</button>
+      </div></div>`;
+    });
+    html+=`</div>`;
+  });
+  const items=(order.items||[]).filter(i=>i.qty>0);
+  if(items.length){
+    const total=items.reduce((s,i)=>s+i.qty*i.price,0);
+    html+=`<div class="ord-sum">`;
+    items.forEach(i=>{html+=`<div class="ol"><span>${i.name} × ${i.qty}</span><span>${i.qty*i.price} lei</span></div>`;});
+    html+=`<div class="ot"><span>Total</span><span>${total} lei</span></div></div>`;
+    html+=`<div class="btn-row">`;
+    if(!isDone){
+      html+=`<button class="btn suc" onclick="trimiteKitchen(${t})"><i class="ti ti-send" aria-hidden="true"></i> Trimite</button>`;
+      html+=`<button class="btn pri" onclick="marcheazaGata(${t})">Plătit ✓</button>`;
+    } else {
+      html+=`<button class="btn" onclick="redeschide(${t})">Redeschide</button>`;
+    }
+    html+=`</div>`;
+  }
+  html+=`</div>`;
+  panel.innerHTML=html;
+}
+
+function chQty(tableNum,itemId,price,name,cat,delta){
+  if(!state.tables[tableNum])state.tables[tableNum]={items:[],status:'activ'};
+  const order=state.tables[tableNum];
+  if(order.status==='gata')return;
+  let item=order.items.find(i=>i.id===itemId);
+  if(!item){item={id:itemId,name,price,qty:0,cat};order.items.push(item);}
+  item.qty=Math.max(0,item.qty+delta);
+  save();renderTables();
+}
+
+function trimiteKitchen(tableNum){
+  const order=state.tables[tableNum];
+  if(!order||!order.items||!order.items.length)return;
+  const pizzas=order.items.filter(i=>i.cat==='pizzas'&&i.qty>0);
+  if(!pizzas.length){alert('Nicio pizza de trimis — băuturile le servești tu!');return;}
+  const ts=new Date();
+  const label=ts.getHours().toString().padStart(2,'0')+':'+ts.getMinutes().toString().padStart(2,'0');
+  pizzas.forEach(p=>{for(let q=0;q<p.qty;q++){state.kitchenQueue.push({id:Date.now()+Math.random(),table:tableNum,name:p.name,time:label,done:false});}});
+  save();
+  alert(`${pizzas.reduce((s,p)=>s+p.qty,0)} pizza(e) trimise la bucătărie pentru Masa ${tableNum}!`);
+}
+
+function marcheazaGata(tableNum){
+  if(!state.tables[tableNum])return;
+  state.tables[tableNum].status='gata';
+  save();renderTables();
+}
+
+function redeschide(tableNum){
+  if(state.tables[tableNum])state.tables[tableNum].status='activ';
+  save();renderTables();
+}
+
+function renderKitchen(){
+  const el=document.getElementById('kitchen-list');
+  const pending=state.kitchenQueue.filter(i=>!i.done);
+  const done=state.kitchenQueue.filter(i=>i.done);
+  if(!state.kitchenQueue.length){el.innerHTML='<div class="empty"><i class="ti ti-flame" style="font-size:32px;display:block;margin-bottom:8px" aria-hidden="true"></i>Nicio comandă încă</div>';return;}
+  let html='';
+  if(pending.length){
+    html+=`<div class="lbl">${pending.length} pizza(e) de pregătit</div>`;
+    pending.forEach(item=>{
+      html+=`<div class="card" style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-size:15px;font-weight:500">${item.name}</span>
+          <span class="badge activ">Masa ${item.table}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span class="ts"><i class="ti ti-clock" aria-hidden="true" style="font-size:13px;vertical-align:-1px"></i> ${item.time}</span>
+          <button class="btn pri" style="flex:0;padding:6px 14px" onclick="marcheazaPizzaGata('${item.id}')">Gata ✓</button>
+        </div>
+      </div>`;
+    });
+  }
+  if(done.length){
+    html+=`<div class="lbl" style="margin-top:1rem">${done.length} finalizate</div>`;
+    done.forEach(item=>{
+      html+=`<div class="card" style="opacity:.4;margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:14px;text-decoration:line-through;color:var(--color-text-secondary)">${item.name}</span>
+          <span class="badge gata">Masa ${item.table}</span>
+        </div>
+        <span class="ts">${item.time}</span>
+      </div>`;
+    });
+  }
+  el.innerHTML=html;
+}
+
+function marcheazaPizzaGata(id){
+  const item=state.kitchenQueue.find(i=>i.id==id);
+  if(item)item.done=true;
+  save();renderKitchen();
+}
+
+function renderSumar(){
+  const totals={};let revenue=0,tableCount=0;
+  Object.values(state.tables).forEach(order=>{
+    if(order.items&&order.items.length)tableCount++;
+    (order.items||[]).forEach(item=>{
+      if(item.qty>0){
+        if(!totals[item.name])totals[item.name]={qty:0,revenue:0};
+        totals[item.name].qty+=item.qty;
+        totals[item.name].revenue+=item.qty*item.price;
+        revenue+=item.qty*item.price;
+      }
+    });
+  });
+  const totalItems=Object.values(totals).reduce((s,v)=>s+v.qty,0);
+  document.getElementById('stat-grid').innerHTML=`
+    <div class="stat"><div class="stat-l">Încasări totale</div><div class="stat-v">${revenue} lei</div></div>
+    <div class="stat"><div class="stat-l">Mese servite</div><div class="stat-v">${tableCount}</div></div>
+    <div class="stat"><div class="stat-l">Produse vândute</div><div class="stat-v">${totalItems}</div></div>
+    <div class="stat"><div class="stat-l">Pizze pregătite</div><div class="stat-v">${state.kitchenQueue.length}</div></div>`;
+  const list=document.getElementById('items-list');
+  if(!Object.keys(totals).length){list.innerHTML='<div class="empty">Nicio comandă azi</div>';return;}
+  list.innerHTML=Object.entries(totals).sort((a,b)=>b[1].qty-a[1].qty).map(([name,v])=>`
+    <div class="irow"><span>${name}</span><span style="display:flex;gap:16px"><span style="color:var(--color-text-secondary)">×${v.qty}</span><span style="font-weight:500">${v.revenue} lei</span></span></div>`).join('');
+}
+
+function resetZi(){
+  if(!confirm('Resetezi toate comenzile din ziua de azi?'))return;
+  state.tables={};state.kitchenQueue={};state.kitchenQueue=[];state.selectedTable=null;
+  save();renderTables();showPage('comenzi');
+}
+
+function renderAdmin(){
+  let html='';
+  ['pizzas','drinks','other'].forEach(cat=>{
+    html+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <span style="font-size:15px;font-weight:500">${CAT_LABELS[cat]}</span>
+      <button class="btn pri" style="flex:0;padding:6px 14px;font-size:12px" onclick="openAdd('${cat}')"><i class="ti ti-plus" aria-hidden="true"></i> Adaugă</button>
+    </div>`;
+    (state.menu[cat]||[]).forEach(item=>{
+      html+=`<div class="admin-item">
+        <span>${item.name}</span>
+        <div style="display:flex;align-items:center;gap:12px">
+          <span style="color:var(--color-text-secondary);font-size:13px">${item.price} lei</span>
+          <div class="icon-btns">
+            <button class="icon-btn" aria-label="Editează ${item.name}" onclick="openEdit('${cat}','${item.id}')"><i class="ti ti-edit" aria-hidden="true"></i></button>
+            <button class="icon-btn del" aria-label="Șterge ${item.name}" onclick="deleteItem('${cat}','${item.id}')"><i class="ti ti-trash" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </div>`;
+    });
+    html+=`</div>`;
+  });
+  if(editingItem){
+    const isNew=editingItem.isNew;
+    html=`<div class="modal-wrap"><div class="modal">
+      <h3>${isNew?'Produs nou':'Editează produsul'}</h3>
+      <div class="field"><label>Categorie</label><select id="e-cat" ${isNew?'':'disabled'}>
+        <option value="pizzas" ${editingItem.cat==='pizzas'?'selected':''}>Pizza</option>
+        <option value="drinks" ${editingItem.cat==='drinks'?'selected':''}>Băuturi</option>
+        <option value="other" ${editingItem.cat==='other'?'selected':''}>Altele</option>
+      </select></div>
+      <div class="field"><label>Nume produs</label><input id="e-name" type="text" value="${editingItem.name||''}" placeholder="ex: Pizza Hawai"></div>
+      <div class="field"><label>Preț (lei)</label><input id="e-price" type="number" value="${editingItem.price||''}" placeholder="ex: 25" min="1"></div>
+      <div class="btn-row" style="margin-top:1rem">
+        <button class="btn" onclick="cancelEdit()">Anulează</button>
+        <button class="btn suc" onclick="saveItem()">Salvează</button>
+      </div>
+    </div></div>`+html;
+  }
+  document.getElementById('admin-panel').innerHTML=html;
+}
+
+function openAdd(cat){editingItem={isNew:true,cat,name:'',price:''};renderAdmin();}
+function openEdit(cat,id){
+  const item=state.menu[cat].find(i=>i.id===id);
+  if(item)editingItem={isNew:false,cat,id,name:item.name,price:item.price};
+  renderAdmin();
+}
+function cancelEdit(){editingItem=null;renderAdmin();}
+function deleteItem(cat,id){
+  if(!confirm('Ștergi produsul?'))return;
+  state.menu[cat]=state.menu[cat].filter(i=>i.id!==id);
+  save();renderAdmin();
+}
+function saveItem(){
+  const name=document.getElementById('e-name').value.trim();
+  const price=parseInt(document.getElementById('e-price').value);
+  const cat=document.getElementById('e-cat').value;
+  if(!name||!price||price<1){alert('Completează numele și prețul!');return;}
+  if(editingItem.isNew){
+    state.menu[cat].push({id:'c'+Date.now(),name,price});
+  } else {
+    const item=state.menu[editingItem.cat].find(i=>i.id===editingItem.id);
+    if(item){item.name=name;item.price=price;}
+  }
+  editingItem=null;save();renderAdmin();
+}
+renderTables();
+</script>
