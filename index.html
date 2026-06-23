@@ -1,85 +1,104 @@
 <!DOCTYPE html>
-<html>
+<html lang="ro">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pizza App</title>
-</head>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Pizza App</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-size:16px}
-.nav{display:flex;background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);position:sticky;top:0;z-index:100}
-.nav-btn{flex:1;padding:14px 4px 12px;border:none;background:none;cursor:pointer;font-size:13px;color:var(--color-text-secondary);display:flex;flex-direction:column;align-items:center;gap:5px;border-bottom:2px solid transparent;transition:color .15s}
-.nav-btn.active{color:var(--color-text-primary);border-bottom-color:var(--color-text-primary)}
-.nav-btn i{font-size:24px}
-.page{display:none;padding:1rem}
-.page.active{display:block}
-.lbl{font-size:13px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
-.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:14px}
-.table-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-  gap: 10px;
-}
-
-.tbl-btn{padding:14px 4px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-primary);cursor:pointer;font-size:15px;font-weight:500;color:var(--color-text-primary);text-align:center;position:relative;transition:background .1s}
-.tbl-btn.selected{background:#E6F1FB;border-color:#378ADD;color:#0C447C}
-.tbl-btn.has-order::after{content:'';position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:#639922}
-.tbl-btn.done-t{opacity:.45}
-.menu-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 10px;
-}
-
-.mitem{padding:12px 14px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-primary);cursor:default;display:flex;justify-content:space-between;align-items:center;font-size:15px}
-.mitem .pr{font-size:13px;color:var(--color-text-secondary);margin-top:2px}
-.qty-c{display:flex;align-items:center;gap:10px}
-.qb{width:44px;height:44px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:none;cursor:pointer;font-size:22px;display:flex;align-items:center;justify-content:center;color:var(--color-text-primary)}
-.qn{font-size:17px;font-weight:500;min-width:20px;text-align:center}
-.ord-sum{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:14px;margin-bottom:14px}
-.ol{display:flex;justify-content:space-between;font-size:15px;padding:4px 0;color:var(--color-text-secondary)}
-.ol span:last-child{color:var(--color-text-primary);font-weight:500}
-.ot{display:flex;justify-content:space-between;font-size:17px;font-weight:500;border-top:0.5px solid var(--color-border-tertiary);margin-top:10px;padding-top:10px}
-.btn-row{display:flex;gap:10px}
-.btn{padding:13px 16px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:none;cursor:pointer;font-size:15px;font-weight:500;color:var(--color-text-primary);flex:1;transition:background .1s}
-.btn:hover{background:var(--color-background-secondary)}
-.btn.pri{background:#0C447C;color:#E6F1FB;border-color:#0C447C}
-.btn.pri:hover{background:#185FA5}
-.btn.suc{background:#3B6D11;color:#EAF3DE;border-color:#3B6D11}
-.btn.suc:hover{background:#27500A}
-.btn.dan{color:#A32D2D;border-color:#F09595}
-.badge{display:inline-block;font-size:13px;padding:4px 10px;border-radius:var(--border-radius-md);font-weight:500}
-.badge.activ{background:#EAF3DE;color:#3B6D11}
-.badge.gata{background:#F1EFE8;color:#5F5E5A}
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.25rem}
-.stat{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:14px}
-.stat-l{font-size:13px;color:var(--color-text-secondary);margin-bottom:6px}
-.stat-v{font-size:26px;font-weight:500;color:var(--color-text-primary)}
-.irow{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:15px}
-.irow:last-child{border-bottom:none}
-.empty{text-align:center;padding:2.5rem;color:var(--color-text-tertiary);font-size:16px}
-.ts{font-size:13px;color:var(--color-text-tertiary)}
-.modal-wrap{background:rgba(0,0,0,0.45);border-radius:var(--border-radius-lg);padding:2rem 1rem;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
-.modal{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;width:100%}
-.modal h3{font-size:17px;font-weight:500;margin-bottom:1.25rem}
-.field{margin-bottom:12px}
-.field label{display:block;font-size:14px;color:var(--color-text-secondary);margin-bottom:6px}
-.field input,.field select{width:100%;padding:11px 12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary);font-size:15px}
-.admin-item{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:15px}
-.admin-item:last-child{border-bottom:none}
-.icon-btn{width:36px;height:36px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--color-text-secondary);font-size:18px}
-.icon-btn.del{color:#A32D2D;border-color:#F09595}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:17px;background:#F5F5F0;color:#1a1a1a}
+  .nav{display:flex;background:#fff;border-bottom:1px solid #E0DED8;position:fixed;top:0;left:0;right:0;z-index:100;height:60px}
+  .nav-btn{flex:1;border:none;background:none;cursor:pointer;font-size:11px;color:#888;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-bottom:2px solid transparent}
+  .nav-btn svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .nav-btn.active{color:#0C447C;border-bottom-color:#0C447C}
+  .page{display:none;padding:76px 14px 24px;min-height:100vh}
+  .page.active{display:block}
+  .lbl{font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px}
+  .card{background:#fff;border:1px solid #E0DED8;border-radius:14px;padding:16px;margin-bottom:14px}
+  /* TABLES */
+  .table-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px}
+  .tbl-btn{padding:16px 4px;border:1.5px solid #E0DED8;border-radius:12px;background:#fff;font-size:17px;font-weight:600;color:#1a1a1a;text-align:center;position:relative;cursor:pointer;transition:background .1s}
+  .tbl-btn.selected{background:#E6F1FB;border-color:#378ADD;color:#0C447C}
+  .tbl-btn.has-order::after{content:'';position:absolute;top:7px;right:7px;width:9px;height:9px;border-radius:50%;background:#639922;border:1.5px solid #fff}
+  .tbl-btn.done-t{opacity:.4}
+  /* MENU ITEMS */
+  .menu-grid{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:16px}
+  .mitem{padding:14px;border:1px solid #E0DED8;border-radius:12px;background:#fff;display:flex;justify-content:space-between;align-items:center}
+  .mitem-name{font-size:16px;font-weight:500}
+  .mitem-price{font-size:14px;color:#888;margin-top:2px}
+  .qty-c{display:flex;align-items:center;gap:14px;flex-shrink:0}
+  .qb{width:40px;height:40px;border:1.5px solid #C8C6C0;border-radius:10px;background:#F5F5F0;font-size:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#1a1a1a;font-weight:300}
+  .qb:active{background:#E0DED8}
+  .qn{font-size:18px;font-weight:600;min-width:24px;text-align:center}
+  /* ORDER SUMMARY */
+  .ord-sum{background:#F5F5F0;border-radius:12px;padding:14px;margin-bottom:14px}
+  .ol{display:flex;justify-content:space-between;font-size:15px;padding:5px 0;color:#555}
+  .ol span:last-child{color:#1a1a1a;font-weight:500}
+  .ot{display:flex;justify-content:space-between;font-size:18px;font-weight:600;border-top:1px solid #E0DED8;margin-top:10px;padding-top:10px}
+  /* BUTTONS */
+  .btn-row{display:flex;gap:10px}
+  .btn{padding:15px;border-radius:12px;border:1.5px solid #C8C6C0;background:#fff;font-size:16px;font-weight:600;color:#1a1a1a;flex:1;cursor:pointer;text-align:center}
+  .btn:active{opacity:.75}
+  .btn.pri{background:#0C447C;color:#fff;border-color:#0C447C}
+  .btn.suc{background:#3B6D11;color:#fff;border-color:#3B6D11}
+  .btn.dan{color:#A32D2D;border-color:#F09595;background:#fff}
+  /* BADGE */
+  .badge{display:inline-block;font-size:13px;padding:4px 12px;border-radius:20px;font-weight:600}
+  .badge.activ{background:#EAF3DE;color:#3B6D11}
+  .badge.gata{background:#F0EEE8;color:#666}
+  /* STATS */
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+  .stat{background:#fff;border:1px solid #E0DED8;border-radius:14px;padding:16px}
+  .stat-l{font-size:13px;color:#888;margin-bottom:6px}
+  .stat-v{font-size:28px;font-weight:700;color:#1a1a1a}
+  /* ITEM ROWS */
+  .irow{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid #F0EEE8;font-size:16px}
+  .irow:last-child{border-bottom:none}
+  /* KITCHEN */
+  .k-card{background:#fff;border:1px solid #E0DED8;border-radius:14px;padding:18px;margin-bottom:12px}
+  .k-name{font-size:20px;font-weight:600;margin-bottom:10px}
+  .k-row{display:flex;justify-content:space-between;align-items:center}
+  .k-time{font-size:14px;color:#888}
+  .k-done{background:#F0EEE8;border-radius:12px;padding:14px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;opacity:.5}
+  /* EMPTY */
+  .empty{text-align:center;padding:3rem 1rem;color:#aaa;font-size:16px;line-height:1.6}
+  /* ADMIN */
+  .admin-item{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid #F0EEE8;font-size:16px}
+  .admin-item:last-child{border-bottom:none}
+  .icon-btn{width:40px;height:40px;border:1px solid #E0DED8;border-radius:10px;background:#F5F5F0;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px}
+  .icon-btn.del{color:#A32D2D;border-color:#F09595;background:#FFF5F5}
+  /* MODAL */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:flex-end}
+  .modal-overlay.hidden{display:none}
+  .modal{background:#fff;border-radius:20px 20px 0 0;padding:24px 20px 36px;width:100%}
+  .modal h3{font-size:19px;font-weight:700;margin-bottom:20px}
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:14px;color:#666;margin-bottom:6px;font-weight:500}
+  .field input,.field select{width:100%;padding:14px;border:1.5px solid #E0DED8;border-radius:12px;background:#F5F5F0;color:#1a1a1a;font-size:16px}
+  .section-title{font-size:19px;font-weight:700;margin-bottom:14px}
 </style>
-
-<h2 style="position:absolute;left:-9999px">Aplicație comenzi pizza — comenzi, bucătărie, sumar, admin</h2>
+</head>
+<body>
 
 <nav class="nav">
-  <button class="nav-btn active" onclick="showPage('comenzi')" id="nav-comenzi"><i class="ti ti-notebook" aria-hidden="true"></i>Comenzi</button>
-  <button class="nav-btn" onclick="showPage('bucatarie')" id="nav-bucatarie"><i class="ti ti-flame" aria-hidden="true"></i>Bucătărie</button>
-  <button class="nav-btn" onclick="showPage('sumar')" id="nav-sumar"><i class="ti ti-chart-bar" aria-hidden="true"></i>Sumar</button>
-  <button class="nav-btn" onclick="showPage('admin')" id="nav-admin"><i class="ti ti-settings" aria-hidden="true"></i>Admin</button>
+  <button class="nav-btn active" onclick="showPage('comenzi')" id="nav-comenzi">
+    <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+    Comenzi
+  </button>
+  <button class="nav-btn" onclick="showPage('bucatarie')" id="nav-bucatarie">
+    <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7c0 3-1.5 5-3.5 6.5V18a1 1 0 01-1 1h-5a1 1 0 01-1-1v-2.5C6.5 14 5 12 5 9a7 7 0 017-7z"/><line x1="9" y1="21" x2="15" y2="21"/><line x1="12" y1="2" x2="12" y2="6"/></svg>
+    Bucătărie
+  </button>
+  <button class="nav-btn" onclick="showPage('sumar')" id="nav-sumar">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="4" height="18" rx="1"/><rect x="10" y="8" width="4" height="13" rx="1"/><rect x="17" y="5" width="4" height="16" rx="1"/></svg>
+    Sumar
+  </button>
+  <button class="nav-btn" onclick="showPage('admin')" id="nav-admin">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    Admin
+  </button>
 </nav>
 
 <div id="page-comenzi" class="page active">
@@ -98,11 +117,16 @@ body{font-size:16px}
     <div class="lbl" style="margin-bottom:12px">Produse vândute azi</div>
     <div id="items-list"></div>
   </div>
-  <button class="btn dan" style="width:100%;margin-top:4px" onclick="resetZi()">Resetează ziua</button>
+  <button class="btn dan" style="width:100%;margin-top:8px" onclick="resetZi()">Resetează ziua</button>
 </div>
 
 <div id="page-admin" class="page">
   <div id="admin-panel"></div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay hidden" id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal-content"></div>
 </div>
 
 <script>
@@ -113,7 +137,7 @@ const DEFAULT_MENU={
   other:[{id:'o1',name:'Înghețată',price:8},{id:'o2',name:'Clătite',price:10}]
 };
 
-let state={tables:{},kitchenQueue:[],selectedTable:null,menu:JSON.parse(JSON.stringify(DEFAULT_MENU)), history: [] };
+let state={tables:{},kitchenQueue:[],selectedTable:null,menu:JSON.parse(JSON.stringify(DEFAULT_MENU))};
 let editingItem=null;
 try{const s=localStorage.getItem('pizzaAppRO');if(s){const p=JSON.parse(s);state=Object.assign(state,p);if(!state.menu)state.menu=JSON.parse(JSON.stringify(DEFAULT_MENU));}}catch(e){}
 
@@ -125,9 +149,9 @@ function showPage(p){
   document.getElementById('page-'+p).classList.add('active');
   document.getElementById('nav-'+p).classList.add('active');
   if(p==='bucatarie')renderKitchen();
-  if(p==='sumar')renderSumar();
-  if(p==='admin')renderAdmin();
-  if(p==='comenzi')renderTables();
+  else if(p==='sumar')renderSumar();
+  else if(p==='admin')renderAdmin();
+  else renderTables();
 }
 
 function renderTables(){
@@ -152,24 +176,30 @@ function selectTable(n){state.selectedTable=n;renderTables();}
 function renderOrderPanel(){
   const panel=document.getElementById('order-panel');
   const t=state.selectedTable;
-  if(!t){panel.innerHTML='<div class="empty">Apasă o masă pentru a prelua comanda</div>';return;}
+  if(!t){panel.innerHTML='<div class="empty">👆 Apasă o masă<br>pentru a prelua comanda</div>';return;}
   const order=state.tables[t]||{items:[],status:'activ'};
+  if(!order.items)order.items=[];
   const isDone=order.status==='gata';
-  let html=`<div class="card"><div style="display:flex;align-items:center;gap:10px;margin-bottom:14px"><span style="font-size:17px;font-weight:500">Masa ${t}</span><span class="badge ${isDone?'gata':'activ'}">${isDone?'Gata':'Activ'}</span></div>`;
+  let html=`<div class="card"><div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+    <span style="font-size:19px;font-weight:700">Masa ${t}</span>
+    <span class="badge ${isDone?'gata':'activ'}">${isDone?'✓ Gata':'● Activ'}</span>
+  </div>`;
   ['pizzas','drinks','other'].forEach(cat=>{
     html+=`<div class="lbl">${CAT_LABELS[cat]}</div><div class="menu-grid">`;
     (state.menu[cat]||[]).forEach(item=>{
-      const qty=(order.items||(order.items=[])).find(i=>i.id===item.id)?.qty||0;
-      html+=`<div class="mitem"><div><div>${item.name}</div><div class="pr">${item.price} lei</div></div>
-      <div class="qty-c">
-        <button class="qb" ${isDone?'disabled':''} onclick="chQty(${t},'${item.id}',${item.price},'${item.name}','${cat}',-1)">−</button>
-        <span class="qn">${qty}</span>
-        <button class="qb" ${isDone?'disabled':''} onclick="chQty(${t},'${item.id}',${item.price},'${item.name}','${cat}',1)">+</button>
-      </div></div>`;
+      const qty=(order.items.find(i=>i.id===item.id)||{qty:0}).qty;
+      html+=`<div class="mitem">
+        <div><div class="mitem-name">${item.name}</div><div class="mitem-price">${item.price} lei</div></div>
+        <div class="qty-c">
+          <button class="qb" ${isDone?'disabled':''} onclick="chQty(${t},'${item.id}',${item.price},'${item.name}','${cat}',-1)">−</button>
+          <span class="qn">${qty||0}</span>
+          <button class="qb" ${isDone?'disabled':''} onclick="chQty(${t},'${item.id}',${item.price},'${item.name}','${cat}',1)">+</button>
+        </div>
+      </div>`;
     });
     html+=`</div>`;
   });
-  const items=(order.items||[]).filter(i=>i.qty>0);
+  const items=order.items.filter(i=>i.qty>0);
   if(items.length){
     const total=items.reduce((s,i)=>s+i.qty*i.price,0);
     html+=`<div class="ord-sum">`;
@@ -177,8 +207,8 @@ function renderOrderPanel(){
     html+=`<div class="ot"><span>Total</span><span>${total} lei</span></div></div>`;
     html+=`<div class="btn-row">`;
     if(!isDone){
-      html+=`<button class="btn suc" onclick="trimiteKitchen(${t})"><i class="ti ti-send" aria-hidden="true"></i> Trimite</button>`;
-      html+=`<button class="btn pri" onclick="marcheazaGata(${t})">Plătit ✓</button>`;
+      html+=`<button class="btn suc" onclick="trimiteKitchen(${t})">🍕 Trimite</button>`;
+      html+=`<button class="btn pri" onclick="marcheazaGata(${t})">💰 Plătit</button>`;
     } else {
       html+=`<button class="btn" onclick="redeschide(${t})">Redeschide</button>`;
     }
@@ -192,44 +222,29 @@ function chQty(tableNum,itemId,price,name,cat,delta){
   if(!state.tables[tableNum])state.tables[tableNum]={items:[],status:'activ'};
   const order=state.tables[tableNum];
   if(order.status==='gata')return;
+  if(!order.items)order.items=[];
   let item=order.items.find(i=>i.id===itemId);
   if(!item){item={id:itemId,name,price,qty:0,cat};order.items.push(item);}
   item.qty=Math.max(0,item.qty+delta);
-  save();renderTables();
+  save();renderOrderPanel();
 }
 
 function trimiteKitchen(tableNum){
   const order=state.tables[tableNum];
   if(!order||!order.items||!order.items.length)return;
   const pizzas=order.items.filter(i=>i.cat==='pizzas'&&i.qty>0);
-  if(!pizzas.length){alert('Nicio pizza de trimis — băuturile le servești tu!');return;}
+  if(!pizzas.length){alert('Nicio pizza de trimis!');return;}
   const ts=new Date();
   const label=ts.getHours().toString().padStart(2,'0')+':'+ts.getMinutes().toString().padStart(2,'0');
-  pizzas.forEach(p=>{for(let q=0;q<p.qty;q++){state.kitchenQueue.push({id:Date.now()+Math.random(),table:tableNum,name:p.name,time:label,done:false});}});
+  pizzas.forEach(p=>{for(let q=0;q<p.qty;q++){state.kitchenQueue.push({id:'k'+Date.now()+Math.random(),table:tableNum,name:p.name,time:label,done:false});}});
   save();
-  alert(`${pizzas.reduce((s,p)=>s+p.qty,0)} pizza(e) trimise la bucătărie pentru Masa ${tableNum}!`);
+  alert(`✅ ${pizzas.reduce((s,p)=>s+p.qty,0)} pizza(e) trimise la bucătărie!`);
 }
 
 function marcheazaGata(tableNum){
-
-  const order = state.tables[tableNum];
-  if(!order) return;
-
-  // ✅ move order to history
-  state.history.push({
-    table: tableNum,
-    items: order.items,
-    time: Date.now()
-  });
-
-  // ✅ remove from active tables
-  delete state.tables[tableNum];
-
-  // ✅ clean kitchen
-  state.kitchenQueue = state.kitchenQueue.filter(i => i.table !== tableNum);
-
-  save();
-  renderTables();
+  if(!state.tables[tableNum])return;
+  state.tables[tableNum].status='gata';
+  save();renderTables();
 }
 
 function redeschide(tableNum){
@@ -241,47 +256,38 @@ function renderKitchen(){
   const el=document.getElementById('kitchen-list');
   const pending=state.kitchenQueue.filter(i=>!i.done);
   const done=state.kitchenQueue.filter(i=>i.done);
-  if(!state.kitchenQueue.length){el.innerHTML='<div class="empty"><i class="ti ti-flame" style="font-size:40px;display:block;margin-bottom:10px" aria-hidden="true"></i>Nicio comandă încă</div>';return;}
+  if(!state.kitchenQueue.length){el.innerHTML='<div class="empty">🍕<br><br>Nicio comandă încă</div>';return;}
   let html='';
   if(pending.length){
     html+=`<div class="lbl">${pending.length} pizza(e) de pregătit</div>`;
     pending.forEach(item=>{
-      html+=`<div class="card" style="margin-bottom:12px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <span style="font-size:18px;font-weight:500">${item.name}</span>
-          <span class="badge activ">Masa ${item.table}</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <span class="ts"><i class="ti ti-clock" aria-hidden="true" style="font-size:15px;vertical-align:-2px"></i> ${item.time}</span>
-          <button class="btn pri" style="flex:0;padding:10px 20px" onclick="marcheazaPizzaGata('${item.id}')">Gata ✓</button>
+      html+=`<div class="k-card">
+        <div class="k-name">${item.name}</div>
+        <div class="k-row">
+          <div><span class="badge activ">Masa ${item.table}</span> <span class="k-time">⏱ ${item.time}</span></div>
+          <button class="btn pri" style="flex:0;padding:12px 20px" onclick="marcheazaPizzaGata('${item.id}')">Gata ✓</button>
         </div>
       </div>`;
     });
   }
   if(done.length){
-    html+=`<div class="lbl" style="margin-top:1rem">${done.length} finalizate</div>`;
-    done.forEach(item=>{
-      html+=`<div class="card" style="opacity:.4;margin-bottom:8px">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <span style="font-size:15px;text-decoration:line-through;color:var(--color-text-secondary)">${item.name}</span>
-          <span class="badge gata">Masa ${item.table}</span>
-        </div>
-        <span class="ts">${item.time}</span>
-      </div>`;
+    html+=`<div class="lbl" style="margin-top:1.5rem">Finalizate (${done.length})</div>`;
+    done.slice().reverse().forEach(item=>{
+      html+=`<div class="k-done"><span style="text-decoration:line-through;color:#aaa">${item.name} — Masa ${item.table}</span><span style="color:#aaa;font-size:13px">${item.time}</span></div>`;
     });
   }
   el.innerHTML=html;
 }
 
 function marcheazaPizzaGata(id){
-  const item=state.kitchenQueue.find(i=>i.id==id);
+  const item=state.kitchenQueue.find(i=>i.id===id);
   if(item)item.done=true;
   save();renderKitchen();
 }
 
 function renderSumar(){
   const totals={};let revenue=0,tableCount=0;
-  [...Object.values(state.tables), ...state.history].forEach(order =>{
+  Object.values(state.tables).forEach(order=>{
     if(order.items&&order.items.length)tableCount++;
     (order.items||[]).forEach(item=>{
       if(item.qty>0){
@@ -294,75 +300,94 @@ function renderSumar(){
   });
   const totalItems=Object.values(totals).reduce((s,v)=>s+v.qty,0);
   document.getElementById('stat-grid').innerHTML=`
-    <div class="stat"><div class="stat-l">Încasări totale</div><div class="stat-v">${revenue} lei</div></div>
-    <div class="stat"><div class="stat-l">Mese servite</div><div class="stat-v">${tableCount}</div></div>
-    <div class="stat"><div class="stat-l">Produse vândute</div><div class="stat-v">${totalItems}</div></div>
-    <div class="stat"><div class="stat-l">Pizze pregătite</div><div class="stat-v">${state.kitchenQueue.length}</div></div>`;
+    <div class="stat"><div class="stat-l">💰 Încasări</div><div class="stat-v">${revenue} lei</div></div>
+    <div class="stat"><div class="stat-l">🪑 Mese</div><div class="stat-v">${tableCount}</div></div>
+    <div class="stat"><div class="stat-l">📦 Produse</div><div class="stat-v">${totalItems}</div></div>
+    <div class="stat"><div class="stat-l">🍕 Pizze</div><div class="stat-v">${state.kitchenQueue.length}</div></div>`;
   const list=document.getElementById('items-list');
   if(!Object.keys(totals).length){list.innerHTML='<div class="empty">Nicio comandă azi</div>';return;}
   list.innerHTML=Object.entries(totals).sort((a,b)=>b[1].qty-a[1].qty).map(([name,v])=>`
-    <div class="irow"><span>${name}</span><span style="display:flex;gap:16px"><span style="color:var(--color-text-secondary)">×${v.qty}</span><span style="font-weight:500">${v.revenue} lei</span></span></div>`).join('');
+    <div class="irow"><span>${name}</span><span style="display:flex;gap:18px"><span style="color:#888">×${v.qty}</span><span style="font-weight:600">${v.revenue} lei</span></span></div>`).join('');
 }
 
 function resetZi(){
   if(!confirm('Resetezi toate comenzile din ziua de azi?'))return;
   state.tables={};state.kitchenQueue=[];state.selectedTable=null;
-  save();renderTables();showPage('comenzi');
+  save();showPage('comenzi');
 }
 
 function renderAdmin(){
+  const panel=document.getElementById('admin-panel');
   let html='';
   ['pizzas','drinks','other'].forEach(cat=>{
     html+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-      <span style="font-size:17px;font-weight:500">${CAT_LABELS[cat]}</span>
-      <button class="btn pri" style="flex:0;padding:10px 16px;font-size:14px" onclick="openAdd('${cat}')"><i class="ti ti-plus" aria-hidden="true"></i> Adaugă</button>
+      <span class="section-title">${CAT_LABELS[cat]}</span>
+      <button class="btn pri" style="flex:0;padding:10px 16px;font-size:15px" onclick="openAdd('${cat}')">+ Adaugă</button>
     </div>`;
     (state.menu[cat]||[]).forEach(item=>{
       html+=`<div class="admin-item">
-        <span>${item.name}</span>
-        <div style="display:flex;align-items:center;gap:14px">
-          <span style="color:var(--color-text-secondary);font-size:15px">${item.price} lei</span>
-          <div style="display:flex;gap:8px">
-            <button class="icon-btn" aria-label="Editează ${item.name}" onclick="openEdit('${cat}','${item.id}')"><i class="ti ti-edit" aria-hidden="true"></i></button>
-            <button class="icon-btn del" aria-label="Șterge ${item.name}" onclick="deleteItem('${cat}','${item.id}')"><i class="ti ti-trash" aria-hidden="true"></i></button>
-          </div>
+        <div><div style="font-weight:500">${item.name}</div><div style="color:#888;font-size:14px;margin-top:2px">${item.price} lei</div></div>
+        <div style="display:flex;gap:10px">
+          <button class="icon-btn" onclick="openEdit('${cat}','${item.id}')">✏️</button>
+          <button class="icon-btn del" onclick="deleteItem('${cat}','${item.id}')">🗑️</button>
         </div>
       </div>`;
     });
     html+=`</div>`;
   });
-  if(editingItem){
-    const isNew=editingItem.isNew;
-    html=`<div class="modal-wrap"><div class="modal">
-      <h3>${isNew?'Produs nou':'Editează produsul'}</h3>
-      <div class="field"><label>Categorie</label><select id="e-cat" ${isNew?'':'disabled'}>
-        <option value="pizzas" ${editingItem.cat==='pizzas'?'selected':''}>Pizza</option>
-        <option value="drinks" ${editingItem.cat==='drinks'?'selected':''}>Băuturi</option>
-        <option value="other" ${editingItem.cat==='other'?'selected':''}>Altele</option>
-      </select></div>
-      <div class="field"><label>Nume produs</label><input id="e-name" type="text" value="${editingItem.name||''}" placeholder="ex: Pizza Hawai"></div>
-      <div class="field"><label>Preț (lei)</label><input id="e-price" type="number" value="${editingItem.price||''}" placeholder="ex: 25" min="1"></div>
-      <div class="btn-row" style="margin-top:1.25rem">
-        <button class="btn" onclick="cancelEdit()">Anulează</button>
-        <button class="btn suc" onclick="saveItem()">Salvează</button>
-      </div>
-    </div></div>`+html;
-  }
-  document.getElementById('admin-panel').innerHTML=html;
+  panel.innerHTML=html;
 }
 
-function openAdd(cat){editingItem={isNew:true,cat,name:'',price:''};renderAdmin();}
+function openModal(html){
+  document.getElementById('modal-content').innerHTML=html;
+  document.getElementById('modal-overlay').classList.remove('hidden');
+}
+function closeModal(){
+  document.getElementById('modal-overlay').classList.add('hidden');
+  editingItem=null;
+}
+function handleOverlayClick(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
+
+function openAdd(cat){
+  editingItem={isNew:true,cat,name:'',price:''};
+  openModal(`<h3>Produs nou</h3>
+    <div class="field"><label>Categorie</label><select id="e-cat">
+      <option value="pizzas" ${cat==='pizzas'?'selected':''}>🍕 Pizza</option>
+      <option value="drinks" ${cat==='drinks'?'selected':''}>🥤 Băuturi</option>
+      <option value="other" ${cat==='other'?'selected':''}>🍦 Altele</option>
+    </select></div>
+    <div class="field"><label>Nume produs</label><input id="e-name" type="text" placeholder="ex: Pizza Hawai"></div>
+    <div class="field"><label>Preț (lei)</label><input id="e-price" type="number" placeholder="ex: 25" min="1"></div>
+    <div class="btn-row" style="margin-top:1.5rem">
+      <button class="btn" onclick="closeModal()">Anulează</button>
+      <button class="btn suc" onclick="saveItem()">Salvează</button>
+    </div>`);
+}
+
 function openEdit(cat,id){
   const item=state.menu[cat].find(i=>i.id===id);
-  if(item)editingItem={isNew:false,cat,id,name:item.name,price:item.price};
-  renderAdmin();
+  if(!item)return;
+  editingItem={isNew:false,cat,id,name:item.name,price:item.price};
+  openModal(`<h3>Editează produsul</h3>
+    <div class="field"><label>Categorie</label><select id="e-cat" disabled>
+      <option value="pizzas" ${cat==='pizzas'?'selected':''}>🍕 Pizza</option>
+      <option value="drinks" ${cat==='drinks'?'selected':''}>🥤 Băuturi</option>
+      <option value="other" ${cat==='other'?'selected':''}>🍦 Altele</option>
+    </select></div>
+    <div class="field"><label>Nume produs</label><input id="e-name" type="text" value="${item.name}"></div>
+    <div class="field"><label>Preț (lei)</label><input id="e-price" type="number" value="${item.price}" min="1"></div>
+    <div class="btn-row" style="margin-top:1.5rem">
+      <button class="btn" onclick="closeModal()">Anulează</button>
+      <button class="btn suc" onclick="saveItem()">Salvează</button>
+    </div>`);
 }
-function cancelEdit(){editingItem=null;renderAdmin();}
+
 function deleteItem(cat,id){
   if(!confirm('Ștergi produsul?'))return;
   state.menu[cat]=state.menu[cat].filter(i=>i.id!==id);
   save();renderAdmin();
 }
+
 function saveItem(){
   const name=document.getElementById('e-name').value.trim();
   const price=parseInt(document.getElementById('e-price').value);
@@ -374,7 +399,10 @@ function saveItem(){
     const item=state.menu[editingItem.cat].find(i=>i.id===editingItem.id);
     if(item){item.name=name;item.price=price;}
   }
-  editingItem=null;save();renderAdmin();
+  closeModal();save();renderAdmin();
 }
+
 renderTables();
 </script>
+</body>
+</html>
