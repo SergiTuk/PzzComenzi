@@ -153,6 +153,45 @@ const DEFAULT_MENU={
   other:[{id:'o1',name:'Înghețată',price:8},{id:'o2',name:'Clătite',price:10}]
 };
 
+// ── SOUND ALERT ─────────────────────────────────────────────────
+function playAlert(type){
+  const ctx=new (window.AudioContext||window.webkitAudioContext)();
+  if(type==='kitchen'){
+    // Two short high beeps
+    [0,0.25].forEach(t=>{
+      const o=ctx.createOscillator();
+      const g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);
+      o.frequency.value=880;
+      o.type='sine';
+      g.gain.setValueAtTime(0.4,ctx.currentTime+t);
+      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+t+0.18);
+      o.start(ctx.currentTime+t);
+      o.stop(ctx.currentTime+t+0.18);
+    });
+  } else {
+    // One lower longer beep for bar
+    const o=ctx.createOscillator();
+    const g=ctx.createGain();
+    o.connect(g);g.connect(ctx.destination);
+    o.frequency.value=587;
+    o.type='sine';
+    g.gain.setValueAtTime(0.4,ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.35);
+    o.start(ctx.currentTime);
+    o.stop(ctx.currentTime+0.35);
+  }
+}
+
+// Track known pending counts to detect new arrivals
+let knownKitchenPending=null;
+let knownBarPending=null;
+let audioUnlocked=false;
+
+// Unlock audio on first user interaction (browser requirement)
+document.addEventListener('touchstart',()=>{audioUnlocked=true},{once:true});
+document.addEventListener('click',()=>{audioUnlocked=true},{once:true});
+
 // Local state — kept in sync by Firebase listeners
 let state={tables:{},kitchenQueue:[],barQueue:[],sumarZi:[],meseServite:0,menu:JSON.parse(JSON.stringify(DEFAULT_MENU))};
 let selectedTable=null;
@@ -187,11 +226,21 @@ onValue(ref(db,'tables'), snap=>{
 onValue(ref(db,'kitchenQueue'), snap=>{
   const val=snap.val();
   state.kitchenQueue=val?Object.values(val):[];
+  const pending=state.kitchenQueue.filter(i=>!i.done).length;
+  if(knownKitchenPending!==null && pending>knownKitchenPending && audioUnlocked){
+    playAlert('kitchen');
+  }
+  knownKitchenPending=pending;
   if(currentPage==='bucatarie')renderKitchen();
 });
 onValue(ref(db,'barQueue'), snap=>{
   const val=snap.val();
   state.barQueue=val?Object.values(val):[];
+  const pending=state.barQueue.filter(i=>!i.done).length;
+  if(knownBarPending!==null && pending>knownBarPending && audioUnlocked){
+    playAlert('bar');
+  }
+  knownBarPending=pending;
   if(currentPage==='bar')renderBar();
 });
 onValue(ref(db,'sumarZi'), snap=>{
@@ -304,10 +353,10 @@ window.trimiteKitchen=function(tableNum){
   const ts=new Date();
   const label=ts.getHours().toString().padStart(2,'0')+':'+ts.getMinutes().toString().padStart(2,'0');
   const kUpdates={};
-  pizzas.forEach(p=>{for(let q=0;q<p.qty;q++){const id='k'+Date.now()+Math.random();kUpdates[id]={id,table:tableNum,name:p.name,time:label,done:false};}});
+  pizzas.forEach(p=>{for(let q=0;q<p.qty;q++){const id='k'+Date.now()+'_'+Math.floor(Math.random()*1000000);kUpdates[id]={id,table:tableNum,name:p.name,time:label,done:false};}});
   if(Object.keys(kUpdates).length)fbUpdate('kitchenQueue',kUpdates);
   const bUpdates={};
-  [...drinks,...others].forEach(p=>{for(let q=0;q<p.qty;q++){const id='b'+Date.now()+Math.random();bUpdates[id]={id,table:tableNum,name:p.name,time:label,done:false};}});
+  [...drinks,...others].forEach(p=>{for(let q=0;q<p.qty;q++){const id='b'+Date.now()+'_'+Math.floor(Math.random()*1000000);bUpdates[id]={id,table:tableNum,name:p.name,time:label,done:false};}});
   if(Object.keys(bUpdates).length)fbUpdate('barQueue',bUpdates);
   const msgs=[];
   if(pizzas.length)msgs.push(`${pizzas.reduce((s,p)=>s+p.qty,0)} pizza(e) → Bucătărie`);
@@ -514,7 +563,7 @@ window.saveItem=function(){
   if(!name||!price||price<1){alert('Completează numele și prețul!');return;}
   const catItems=[...(state.menu[cat]||[])];
   if(editingItem.isNew){
-    catItems.push({id:'c'+Date.now(),name,price});
+    catItems.push({id:'c'+Date.now()+'_'+Math.floor(Math.random()*1000),name,price});
   } else {
     const idx=catItems.findIndex(i=>i.id===editingItem.id);
     if(idx>-1)catItems[idx]={...catItems[idx],name,price};
